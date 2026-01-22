@@ -22,10 +22,8 @@ pub fn render_pdf(typst_code: &str, _config: &Config) -> Result<Vec<u8>> {
             match typst_pdf::pdf(&doc, &options) {
                 Ok(pdf) => Ok(pdf),
                 Err(errors) => {
-                    let error_messages: Vec<String> = errors
-                        .iter()
-                        .map(|e| format!("{:?}", e))
-                        .collect();
+                    let error_messages: Vec<String> =
+                        errors.iter().map(|e| format!("{:?}", e)).collect();
                     Err(Md2PdfError::Typst(error_messages.join("\n")))
                 }
             }
@@ -73,18 +71,22 @@ impl Md2PdfWorld {
                 // Load system fonts as additional options
                 #[cfg(target_os = "macos")]
                 {
-                    for entry in std::fs::read_dir("/System/Library/Fonts").into_iter().flatten() {
-                        if let Ok(entry) = entry {
-                            Self::load_font_file(&entry.path(), &mut book, &mut fonts);
-                        }
+                    for entry in std::fs::read_dir("/System/Library/Fonts")
+                        .into_iter()
+                        .flatten()
+                        .flatten()
+                    {
+                        Self::load_font_file(&entry.path(), &mut book, &mut fonts);
                     }
 
                     if let Some(home) = std::env::var_os("HOME") {
                         let user_fonts = std::path::Path::new(&home).join("Library/Fonts");
-                        for entry in std::fs::read_dir(user_fonts).into_iter().flatten() {
-                            if let Ok(entry) = entry {
-                                Self::load_font_file(&entry.path(), &mut book, &mut fonts);
-                            }
+                        for entry in std::fs::read_dir(user_fonts)
+                            .into_iter()
+                            .flatten()
+                            .flatten()
+                        {
+                            Self::load_font_file(&entry.path(), &mut book, &mut fonts);
                         }
                     }
                 }
@@ -92,7 +94,11 @@ impl Md2PdfWorld {
                 #[cfg(target_os = "linux")]
                 {
                     for dir in ["/usr/share/fonts", "/usr/local/share/fonts"] {
-                        Self::load_fonts_recursive(std::path::Path::new(dir), &mut book, &mut fonts);
+                        Self::load_fonts_recursive(
+                            std::path::Path::new(dir),
+                            &mut book,
+                            &mut fonts,
+                        );
                     }
 
                     if let Some(home) = std::env::var_os("HOME") {

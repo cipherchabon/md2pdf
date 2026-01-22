@@ -57,8 +57,10 @@ impl<'a> TypstConverter<'a> {
 
     fn convert(&mut self, events: Vec<Event<'_>>, frontmatter: &Frontmatter) -> String {
         // Add theme preamble
-        self.output
-            .push_str(&get_theme_preamble(&self.config.theme, self.config.paper_typst()));
+        self.output.push_str(&get_theme_preamble(
+            &self.config.theme,
+            self.config.paper_typst(),
+        ));
         self.output.push('\n');
 
         // Add frontmatter header if present
@@ -125,9 +127,7 @@ impl<'a> TypstConverter<'a> {
                 self.in_code_block = true;
                 self.code_block_content.clear();
                 self.code_block_lang = match kind {
-                    CodeBlockKind::Fenced(lang) if !lang.is_empty() => {
-                        Some(lang.to_string())
-                    }
+                    CodeBlockKind::Fenced(lang) if !lang.is_empty() => Some(lang.to_string()),
                     _ => None,
                 };
             }
@@ -150,11 +150,11 @@ impl<'a> TypstConverter<'a> {
             }
             Tag::Emphasis => {
                 self.in_emphasis = true;
-                self.output.push_str("_");
+                self.output.push('_');
             }
             Tag::Strong => {
                 self.in_strong = true;
-                self.output.push_str("*");
+                self.output.push('*');
             }
             Tag::Strikethrough => {
                 self.in_strikethrough = true;
@@ -172,11 +172,7 @@ impl<'a> TypstConverter<'a> {
                 self.in_table = true;
                 self.table_alignments = alignments;
                 self.output.push_str("\n#table(\n  columns: (");
-                let cols: Vec<&str> = self
-                    .table_alignments
-                    .iter()
-                    .map(|_| "auto")
-                    .collect();
+                let cols: Vec<&str> = self.table_alignments.iter().map(|_| "auto").collect();
                 self.output.push_str(&cols.join(", "));
                 self.output.push_str("),\n  align: (");
                 let aligns: Vec<&str> = self
@@ -228,9 +224,20 @@ impl<'a> TypstConverter<'a> {
                 let backticks = "```";
 
                 if let Some(lang) = lang {
-                    self.output.push_str(&format!("\n{}{}\n{}\n{}\n\n", backticks, lang, content.trim_end(), backticks));
+                    self.output.push_str(&format!(
+                        "\n{}{}\n{}\n{}\n\n",
+                        backticks,
+                        lang,
+                        content.trim_end(),
+                        backticks
+                    ));
                 } else {
-                    self.output.push_str(&format!("\n{}\n{}\n{}\n\n", backticks, content.trim_end(), backticks));
+                    self.output.push_str(&format!(
+                        "\n{}\n{}\n{}\n\n",
+                        backticks,
+                        content.trim_end(),
+                        backticks
+                    ));
                 }
             }
             TagEnd::List(_) => {
@@ -246,15 +253,15 @@ impl<'a> TypstConverter<'a> {
             }
             TagEnd::Emphasis => {
                 self.in_emphasis = false;
-                self.output.push_str("_");
+                self.output.push('_');
             }
             TagEnd::Strong => {
                 self.in_strong = false;
-                self.output.push_str("*");
+                self.output.push('*');
             }
             TagEnd::Strikethrough => {
                 self.in_strikethrough = false;
-                self.output.push_str("]");
+                self.output.push(']');
             }
             TagEnd::Link => {
                 self.in_link = false;
@@ -268,8 +275,7 @@ impl<'a> TypstConverter<'a> {
             TagEnd::TableHead => {
                 // Output header row with bold
                 for cell in &self.table_row {
-                    self.output
-                        .push_str(&format!("  [*{}*],\n", cell));
+                    self.output.push_str(&format!("  [*{}*],\n", cell));
                 }
             }
             TagEnd::TableRow => {
@@ -299,9 +305,11 @@ impl<'a> TypstConverter<'a> {
             self.current_cell.push_str(&escaped);
         } else if self.in_link {
             // For links, we need to handle it differently
-            self.output.push_str(&format!("#link(\"{}\")[{}]",
+            self.output.push_str(&format!(
+                "#link(\"{}\")[{}]",
                 escape_typst_string(&self.link_url),
-                escaped));
+                escaped
+            ));
             self.link_url.clear(); // Clear so end_tag doesn't duplicate
         } else {
             self.output.push_str(&escaped);

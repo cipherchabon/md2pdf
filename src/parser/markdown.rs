@@ -31,7 +31,9 @@ mod tests {
     #[test]
     fn test_parse_code_block() {
         let events = parse_markdown("```rust\nlet x = 1;\n```");
-        let has_code_block = events.iter().any(|e| matches!(e, Event::Start(Tag::CodeBlock(_))));
+        let has_code_block = events
+            .iter()
+            .any(|e| matches!(e, Event::Start(Tag::CodeBlock(_))));
         assert!(has_code_block);
     }
 
@@ -39,14 +41,18 @@ mod tests {
     fn test_parse_table() {
         let md = "| A | B |\n|---|---|\n| 1 | 2 |";
         let events = parse_markdown(md);
-        let has_table = events.iter().any(|e| matches!(e, Event::Start(Tag::Table(_))));
+        let has_table = events
+            .iter()
+            .any(|e| matches!(e, Event::Start(Tag::Table(_))));
         assert!(has_table);
     }
 
     #[test]
     fn test_parse_list() {
         let events = parse_markdown("- item 1\n- item 2");
-        let has_list = events.iter().any(|e| matches!(e, Event::Start(Tag::List(_))));
+        let has_list = events
+            .iter()
+            .any(|e| matches!(e, Event::Start(Tag::List(_))));
         assert!(has_list);
     }
 }

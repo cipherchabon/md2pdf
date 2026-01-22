@@ -8,7 +8,10 @@ pub fn is_local_image(path: &str) -> bool {
         .unwrap_or("")
         .to_lowercase();
 
-    matches!(ext.as_str(), "png" | "jpg" | "jpeg" | "gif" | "svg" | "webp")
+    matches!(
+        ext.as_str(),
+        "png" | "jpg" | "jpeg" | "gif" | "svg" | "webp"
+    )
 }
 
 /// Check if a URL is a remote image
