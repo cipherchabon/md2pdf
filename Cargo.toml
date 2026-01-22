@@ -1,5 +1,5 @@
 [package]
-name = "md2pdf"
+name = "md2pdf-rs"
 version = "0.1.0"
 edition = "2021"
 authors = ["md2pdf contributors"]
@@ -8,6 +8,10 @@ license = "MIT"
 repository = "https://github.com/cipherchabon/md2pdf"
 keywords = ["markdown", "pdf", "typst", "converter"]
 categories = ["command-line-utilities", "text-processing"]
+
+[[bin]]
+name = "md2pdf"
+path = "src/main.rs"
 
 [dependencies]
 clap = { version = "4", features = ["derive"] }

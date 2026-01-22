@@ -1,5 +1,5 @@
 use clap::Parser;
-use md2pdf::{convert_file, Config};
+use md2pdf_rs::{convert_file, Config};
 use std::path::PathBuf;
 use std::process;
 
