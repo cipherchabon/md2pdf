@@ -5,7 +5,7 @@ edition = "2021"
 authors = ["md2pdf contributors"]
 description = "A CLI tool to convert Markdown to PDF using Typst"
 license = "MIT"
-repository = "https://github.com/example/md2pdf"
+repository = "https://github.com/cipherchabon/md2pdf"
 keywords = ["markdown", "pdf", "typst", "converter"]
 categories = ["command-line-utilities", "text-processing"]
 
