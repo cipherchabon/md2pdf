@@ -13,7 +13,24 @@ A CLI tool to convert Markdown to PDF using [Typst](https://typst.app/) as the r
 
 ## Installation
 
+### Homebrew (macOS/Linux)
+
 ```bash
+brew tap cipherchabon/tap
+brew install md2pdf-rs
+```
+
+### Cargo (crates.io)
+
+```bash
+cargo install md2pdf-rs
+```
+
+### From source
+
+```bash
+git clone https://github.com/cipherchabon/md2pdf
+cd md2pdf
 cargo install --path .
 ```
 
