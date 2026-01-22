@@ -2,6 +2,13 @@
 
 A CLI tool to convert Markdown to PDF using [Typst](https://typst.app/) as the rendering backend.
 
+## Why md2pdf-rs?
+
+- **Fast** - Typst compiles in milliseconds, no multiple passes needed
+- **Lightweight** - Self-contained binary with embedded fonts (~40MB), no TeX installation required
+- **Simple** - Clear error messages and modern syntax
+- **Ready to use** - 4 predefined themes out of the box
+
 ## Features
 
 - **Markdown parsing** with pulldown-cmark (GFM tables, code blocks, math, task lists, strikethrough)
